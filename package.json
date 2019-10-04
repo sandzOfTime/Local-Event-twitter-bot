@@ -1,0 +1,20 @@
+{
+  "name": "Local-Event-twitter-bot",
+  "version": "1.0.0",
+  "description": "A twitter bot that will tweet events that are happening locally (The Bahamas)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandzOfTime/Local-Event-twitter-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sandzOfTime/Local-Event-twitter-bot/issues"
+  },
+  "homepage": "https://github.com/sandzOfTime/Local-Event-twitter-bot#readme"
+}
