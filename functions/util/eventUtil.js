@@ -118,8 +118,8 @@ var returnLocalTime = (date) => {
 
     var eventDate = new Date(date);
 
-    //Takes away five hours for local time zone
-    eventDate.setHours(eventDate.getHours() - 5);
+    //Takes away four hours for local time zone
+    eventDate.setHours(eventDate.getHours() - 4);
 
     return `${eventDate.toLocaleTimeString('en-US', {timeStyle: 'short'})}`;
 }

@@ -54,31 +54,31 @@ var storeContents = async () => {
 }
 
 
-exports.getLocalEvents = functions.https.onRequest(async (req, res) => {
+// exports.getLocalEvents = functions.https.onRequest(async (req, res) => {
 
-    try {
-        await storeContents();
+//     try {
+//         await storeContents();
 
-        var eventData = [];
+//         var eventData = [];
 
-        var allEvents = await db.collection('events').get();
+//         var allEvents = await db.collection('events').get();
 
-        allEvents.forEach((doc) => {
-            eventData.push(doc.data());
-        });
+//         allEvents.forEach((doc) => {
+//             eventData.push(doc.data());
+//         });
 
-        res.send(JSON.stringify(eventData));
+//         res.send(JSON.stringify(eventData));
 
 
-    } catch (error) {
+//     } catch (error) {
 
-        console.log(error);
+//         console.log(error);
 
-        res.send(error);
+//         res.send(error);
 
-    }
+//     }
 
-});
+// });
 
 
 
