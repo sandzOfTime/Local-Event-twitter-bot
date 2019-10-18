@@ -91,3 +91,35 @@ module.exports.getCategoryEmoji = (category) => {
     return eventEmoji;
 
 }
+
+
+
+module.exports.formStatus = (event) => {
+    
+    var emoji = this.getCategoryEmoji(event.category);
+
+    var status = `${emoji}  NEW EVENT!
+
+    ${event.name}
+
+    Time:     ${new Date(event.start_time).toDateString() + ' ' + returnLocalTime(new Date(event.start_time))}
+    Location: ${event.place.name}
+    `;
+
+    return status;
+}
+
+
+
+
+var returnLocalTime = (date) => {
+
+    var timeString;
+
+    var eventDate = new Date(date);
+
+    //Takes away five hours for local time zone
+    eventDate.setHours(eventDate.getHours() - 5);
+
+    return `${eventDate.toLocaleTimeString('en-US', {timeStyle: 'short'})}`;
+}

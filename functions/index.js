@@ -10,12 +10,6 @@ const eventApi = require('./api/eventApi');
 const eventUtil = require('./util/eventUtil');
 const twitter = require('./api/twitter');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((req, res) => {
-//     res.send("Hello from Firebase!");
-// });
 
 
 var storeContents = async () => {
@@ -37,7 +31,7 @@ var storeContents = async () => {
 
             var eventRef = db.collection('events').doc(element.id);
 
-            batch.set(eventRef, element, {merge: true});
+            batch.set(eventRef, element, { merge: true });
 
         });
 
@@ -84,8 +78,23 @@ exports.getLocalEvents = functions.https.onRequest(async (req, res) => {
 
     }
 
+});
 
 
+
+exports.storeLocalEvents = functions.pubsub.schedule('30 10,16,21 * * *').timeZone('America/New_York').onRun(async (context) => {
+
+
+    try {
+        await storeContents();
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+    return null;
 
 });
 
@@ -95,14 +104,11 @@ exports.tweetNewEvent = functions.firestore.document('events/{eventId}').onCreat
     //retrieve event
     const event = snap.data();
 
-    //Get emoji for use in title
-    var emoji = eventUtil.getCategoryEmoji(event.category);
-
     //upload the image to twitter and retrieve its imageId
-    var imageIds = await twitter.uploadEventImage(event.cover.source, `${event.name} event`);
+    var imageIds = await twitter.uploadEventImage(event.cover.source, `${event.name}`);
 
     //Build the status
-    var status = `${emoji} Hello!`;
+    var status = eventUtil.formStatus(event);
 
     //Post new event tweet
     await twitter.postEvents(status, imageIds);
