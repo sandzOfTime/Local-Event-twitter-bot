@@ -12,7 +12,12 @@ var T = new Twit({
 })
 
 
-
+/**
+ * Tweets events
+ * @param {String} status      Contents to be tweeted
+ * @param {Array} media_ids    Id(s) of media/images to be posted
+ * @return {Promise}           Tweets status and image asynchonously
+ */
 module.exports.postEvents = (status, media_ids) => {
     return new Promise((resolve, reject) => {
         T.post('statuses/update', { status: status, media_ids: media_ids }, (err, data, response) => {
@@ -26,7 +31,12 @@ module.exports.postEvents = (status, media_ids) => {
 
 }
 
-
+/**
+ * Uploads Image to Twitter. In order for an image to be posted to twitter, it must be uploaded first before the actual status, and then its Id passed as a parameter to the Post request that tweets the status - see postEvents()
+ * @param {String} imagePath    Path where the image file is stored
+ * @param {String} altText      Alternate text that will be displayed in the case that the image can't be displayed
+ * @return {Promise}            Uploads media to Twitter asynchornously
+ */
 module.exports.uploadEventImage = (imagePath, altText) => {
     return new Promise(async (resolve, reject) => {
         try {

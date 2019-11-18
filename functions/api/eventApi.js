@@ -1,6 +1,11 @@
 const rp = require('request-promise');
 
-
+/**
+ * 
+ * @param {String} url          URL of the Event API 
+ * @param {String} accessToken  Authorization token used to grant access to the API
+ * @return {String}             JSON response of the API
+ */
 module.exports.getEvents = async (url, accessToken) => {
 
     var options = {

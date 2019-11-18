@@ -4,18 +4,24 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+// Initialize firestore database
 let db = admin.firestore();
 
+// User defined modules
 const eventApi = require('./api/eventApi');
 const eventUtil = require('./util/eventUtil');
 const twitter = require('./api/twitter');
 
 
 
+/**
+ * Stores JSON receieved from API into firestore database
+ */
 var storeContents = async () => {
 
     try {
-
+        
+        //When storing multiple records in firestore, a batch must be initialized
         var batch = db.batch();
 
         var response = await eventApi.getEvents(process.env.URL, process.env.API_ACCESS_TOKEN);
@@ -54,34 +60,9 @@ var storeContents = async () => {
 }
 
 
-// exports.getLocalEvents = functions.https.onRequest(async (req, res) => {
-
-//     try {
-//         await storeContents();
-
-//         var eventData = [];
-
-//         var allEvents = await db.collection('events').get();
-
-//         allEvents.forEach((doc) => {
-//             eventData.push(doc.data());
-//         });
-
-//         res.send(JSON.stringify(eventData));
-
-
-//     } catch (error) {
-
-//         console.log(error);
-
-//         res.send(error);
-
-//     }
-
-// });
-
-
-
+/**
+ * Firebase Cloud Function :: Cron job that runs 3 times a day. Calls StoreContents function
+ */
 exports.storeLocalEvents = functions.pubsub.schedule('30 10,16,21 * * *').timeZone('America/New_York').onRun(async (context) => {
 
 
@@ -99,7 +80,9 @@ exports.storeLocalEvents = functions.pubsub.schedule('30 10,16,21 * * *').timeZo
 });
 
 
-
+/**
+ * Firebase Cloud Function :: Database trigger that tweets a new event everytime it is stored for the first time in Firestore
+ */
 exports.tweetNewEvent = functions.firestore.document('events/{eventId}').onCreate(async (snap, context) => {
     //retrieve event
     const event = snap.data();

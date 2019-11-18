@@ -1,5 +1,9 @@
 
-//Will return new object with Event Category
+/**
+ * Gets the category of an event based on its description
+ * @param {Object} eventObject Individual event object that holds all information relating to a particular event
+ * @return {Object}            The Event Object with a new category 
+ */
 module.exports.getEventCategory = (eventObject) => {
 
     var object = eventObject;
@@ -52,7 +56,11 @@ module.exports.getEventCategory = (eventObject) => {
 }
 
 
-
+/**
+ * Gets an emoji based on the category passed
+ * @param {String} category Category of an event
+ * @return {String}         Emoji that represents a category
+ */
 module.exports.getCategoryEmoji = (category) => {
     var eventEmoji;
 
@@ -93,7 +101,11 @@ module.exports.getCategoryEmoji = (category) => {
 }
 
 
-
+/**
+ * Outlines the format of the status that will be tweeted from the bot
+ * @param {Object} event  Individual event object that holds all information relating to a particular event
+ * @return {String}       Status to be tweeted
+ */
 module.exports.formStatus = (event) => {
     
     var emoji = this.getCategoryEmoji(event.category);
@@ -111,7 +123,11 @@ module.exports.formStatus = (event) => {
 
 
 
-
+/**
+ * Converts date passed to local timestamp
+ * @param {Date} date   Date to be converted to local time 
+ * @return {Date}       Local timestamp
+ */
 var returnLocalTime = (date) => {
 
     var timeString;
